@@ -2,16 +2,24 @@ version: "3"
 
 services:
   api1:
-    build: ./One
+    build:
+      context: ./One
+      dockerfile: Dockerfile.app1 # Specify the new Dockerfile name here
     container_name: api1
     ports:
       - "3000:3000"
+    networks:
+      - hira
 
   api2:
-    build: ./Two
+    build:
+      context: ./Two
+      dockerfile: Dockerfile.app2 # Specify the new Dockerfile name here
     container_name: api2
     ports:
       - "4000:4000"
+    networks:
+      - hira
 
   nginx_lb:
     image: nginx
@@ -25,6 +33,7 @@ services:
       - api2
     networks:
       - hira
+
 networks:
   hira:
     driver: bridge
